@@ -17,6 +17,14 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
+    - name: Git Semantic Version
+      uses: PaulHatch/semantic-version@v4.0.3
+      with:
+        major_pattern: "major:"
+        minor_pattern: "feat:"
+        format: "${major}.${minor}.${patch}-prerelease${increment}"
+      id: version
   
     - name: Login en DockerHub
       env:
@@ -28,13 +36,17 @@ jobs:
         echo "Finalizando el login"
 
     - name: Build docker image on cloud
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
-        docker build --tag reaperjc/graph-ql:0.0.2 .
+        docker build --tag reaperjc/graph-ql:$NEW_VERSION .
         docker build --tag reaperjc/graph-ql:latest .
 
     - name: Push docker image to docker hub
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
-        docker push reaperjc/graph-ql:0.0.2
+        docker push reaperjc/graph-ql:NEW_VERSION
         docker push reaperjc/graph-ql:latest
 
         
