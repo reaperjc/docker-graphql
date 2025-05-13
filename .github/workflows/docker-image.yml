@@ -30,9 +30,13 @@ jobs:
     - name: Build docker image on cloud
       run: |
         docker build --tag reaperjc/graph-ql:0.0.2 .
+        docker build --tag reaperjc/graph-ql:latest .
+
     - name: Push docker image to docker hub
       run: |
         docker push reaperjc/graph-ql:0.0.2
+        docker push reaperjc/graph-ql:latest
+
         
    # - name: Build the Docker image
    #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
