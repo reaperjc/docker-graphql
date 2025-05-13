@@ -23,6 +23,7 @@ jobs:
       with:
         major_pattern: "major:"
         minor_pattern: "feat:"
+        patch_pattern: "fix:"
         format: "${major}.${minor}.${patch}-prerelease${increment}"
       id: version
   
@@ -46,7 +47,7 @@ jobs:
       env:
         NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
-        docker push reaperjc/graph-ql:NEW_VERSION
+        docker push reaperjc/graph-ql:$NEW_VERSION
         docker push reaperjc/graph-ql:latest
 
         
