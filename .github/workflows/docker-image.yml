@@ -26,5 +26,13 @@ jobs:
         echo "Iniciando el login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Finalizando el login"
+
+    - name: Build docker image on cloud
+      run: |
+        docker build --tag reaperjc/graph-ql:0.0.2 .
+    - name: Push docker image to docker hub
+      run: |
+        docker push reaperjc/graph-ql:0.0.2
+        
    # - name: Build the Docker image
    #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
